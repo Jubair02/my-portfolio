@@ -52,14 +52,12 @@
     </script>
 
     <style>
-        /* FIX: Scroll Padding to prevent Navbar from covering content */
         html { 
             scroll-behavior: smooth; 
             scroll-padding-top: 100px; 
         }
         body { background-color: #0B0C10; color: #C5C6C7; overflow-x: hidden; }
         
-        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #0B0C10; }
         ::-webkit-scrollbar-thumb { background: #45A29E; border-radius: 4px; }
@@ -93,7 +91,6 @@
 
     <script type="text/babel">
 
-        // --- User Data & Constants ---
         const USER_IMAGE = "https://z-cdn-media.chatglm.cn/files/15e4395b-e4a4-4c7f-80a9-8b04c4e6f58f.jpg?auth_key=1868817967-4035f67ad43d4a71ab1208a45d9e7395-0-dc8eb0e6fb12dcfe5fcb2b7f51bf7de9";
         
         const CONTACT_INFO = {
@@ -102,7 +99,6 @@
             linkedin: "https://www.linkedin.com/in/jubair-hossain-21b5691a1/"
         };
 
-        // --- RESUME MODAL DATA ---
         const RESUME_DATA = {
             education: [
                 { degree: "Bsc in CSE", school: "North South University", year: "2025" },
@@ -121,7 +117,6 @@
             { icon: "fa-laptop-code", title: "Software Eng", desc: "Algorithms, C++, Java, System Design." }
         ];
 
-        // --- PROJECTS ---
         const PROJECTS = [
             {
                 id: 1,
@@ -130,7 +125,6 @@
                 desc: "CNN-based pipeline to analyze EEG signals for detecting abnormal brain activity patterns.",
                 tech: ["Python", "CNN", "Signal"],
                 link: CONTACT_INFO.github,
-                color: "border-purple-500",
                 gradient: "from-purple-600 to-pink-600",
                 icon: "fa-brain"
             },
@@ -141,7 +135,6 @@
                 desc: "Full-stack platform for ordering food, managing carts, and real-time tracking.",
                 tech: ["React", "Node", "Mongo"],
                 link: "https://github.com/Jubair02/Food-Delivery",
-                color: "border-orange-500",
                 gradient: "from-orange-500 to-red-600",
                 icon: "fa-hamburger"
             },
@@ -152,7 +145,6 @@
                 desc: "LMS for students to enroll in courses, watch lectures, and track progress.",
                 tech: ["React", "Redux", "Cloudinary"],
                 link: "https://github.com/Jubair02/Easy-Education",
-                color: "border-blue-500",
                 gradient: "from-blue-500 to-indigo-600",
                 icon: "fa-graduation-cap"
             },
@@ -163,7 +155,6 @@
                 desc: "Web system managing school records, attendance, and database integration.",
                 tech: ["C#", ".NET", "SQL"],
                 link: CONTACT_INFO.github,
-                color: "border-emerald-500",
                 gradient: "from-emerald-500 to-teal-600",
                 icon: "fa-school"
             }
@@ -171,70 +162,20 @@
 
         // --- COMPONENTS ---
 
-        const ResumeModal = ({ isOpen, onClose }) => {
-            if (!isOpen) return null;
-            return (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black bg-opacity-90 backdrop-blur-sm">
-                    <div className="bg-dark-800 w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl border border-dark-accent shadow-2xl relative" data-aos="zoom-in">
-                        <button onClick={onClose} className="absolute top-4 right-4 text-dark-700 hover:text-white z-10">
-                            <i className="fas fa-times text-2xl"></i>
-                        </button>
-                        <div className="p-8">
-                            <div className="text-center mb-8 pb-4 border-b border-dark-700">
-                                <h2 className="text-3xl font-display font-bold text-white">Jubair Hossain</h2>
-                                <p className="text-dark-accent">Full Stack Developer</p>
-                            </div>
-                            <div className="space-y-6">
-                                <div>
-                                    <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2"><i className="fas fa-graduation-cap text-dark-accent"></i> Education</h3>
-                                    <div className="space-y-3">
-                                        {RESUME_DATA.education.map((e, i) => (
-                                            <div key={i} className="border-l-2 border-dark-accent pl-4 bg-dark-900 p-3 rounded-r-lg">
-                                                <h4 className="text-white font-bold">{e.degree}</h4>
-                                                <p className="text-xs text-dark-700">{e.school} • {e.year}</p>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                                <div>
-                                    <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2"><i className="fas fa-briefcase text-dark-accent"></i> Experience</h3>
-                                    <div className="space-y-3">
-                                        {RESUME_DATA.experience.map((e, i) => (
-                                            <div key={i} className="bg-dark-900 p-3 rounded-lg border border-dark-muted">
-                                                <h4 className="text-white font-bold">{e.role}</h4>
-                                                <p className="text-xs text-dark-accent">{e.org} {e.year}</p>
-                                                <p className="text-sm text-dark-700 mt-1">{e.desc}</p>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            );
-        };
-
-        const Navbar = ({ openResume }) => {
+        const Navbar = () => {
             const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
 
-            // Robust Scroll Function
             const handleNavClick = (e, targetId) => {
                 e.preventDefault();
                 setIsMobileMenuOpen(false);
-                
                 const element = document.getElementById(targetId);
                 if (element) {
-                    const offset = 80; // Header height
+                    const offset = 80; 
                     const bodyRect = document.body.getBoundingClientRect().top;
                     const elementRect = element.getBoundingClientRect().top;
                     const elementPosition = elementRect - bodyRect;
                     const offsetPosition = elementPosition - offset;
-
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: "smooth"
-                    });
+                    window.scrollTo({ top: offsetPosition, behavior: "smooth" });
                 }
             };
 
@@ -254,9 +195,16 @@
                                     {item}
                                 </button>
                             ))}
-                            <button onClick={openResume} className="px-4 py-2 border border-dark-accent text-dark-accent text-xs font-bold rounded hover:bg-dark-accent hover:text-dark-900 transition-all uppercase">
-                                Resume
-                            </button>
+                            
+                            {/* UPDATED: Resume Button now links to PDF */}
+                            <a 
+                                href="./cv.pdf" 
+                                download="Jubair_Hossain_Resume.pdf"
+                                className="px-4 py-2 border border-dark-accent text-dark-accent text-xs font-bold rounded hover:bg-dark-accent hover:text-dark-900 transition-all uppercase flex items-center gap-2"
+                            >
+                                <i className="fas fa-file-download"></i> Resume
+                            </a>
+
                             <a href={CONTACT_INFO.github} target="_blank" className="text-dark-accent hover:text-white transition-colors transform hover:scale-110">
                                 <i className="fab fa-github text-xl"></i>
                             </a>
@@ -265,6 +213,7 @@
                             <i className={`fas ${isMobileMenuOpen ? 'fa-times' : 'fa-bars'} text-xl`}></i>
                         </button>
                     </div>
+                    
                     {/* Mobile Menu */}
                     <div className={`md:hidden bg-dark-800 border-b border-dark-700 overflow-hidden transition-all ${isMobileMenuOpen ? 'max-h-96 p-6' : 'max-h-0'}`}>
                         <div className="flex flex-col space-y-4">
@@ -277,9 +226,10 @@
                                     {item}
                                 </button>
                             ))}
-                            <button onClick={() => { openResume(); setIsMobileMenuOpen(false); }} className="text-left text-dark-accent font-bold uppercase">
-                                View Resume
-                            </button>
+                            {/* Mobile Resume Button */}
+                            <a href="./cv.pdf" download className="text-left text-dark-accent font-bold uppercase flex items-center gap-2">
+                                <i className="fas fa-file-download"></i> Download Resume
+                            </a>
                         </div>
                     </div>
                 </nav>
@@ -420,7 +370,6 @@
         );
 
         const Portfolio = () => (
-            // Changed ID to "project"
             <section id="project" className="py-32 bg-dark-900 relative">
                 <div className="container mx-auto px-6 max-w-6xl">
                     <div className="flex flex-col md:flex-row justify-between items-end mb-16" data-aos="fade-up">
@@ -507,8 +456,6 @@
         );
 
         const App = () => {
-            const [isResumeOpen, setIsResumeOpen] = React.useState(false);
-
             React.useEffect(() => {
                 if (window.AOS) {
                     window.AOS.init({ duration: 1000, once: true, offset: 50 });
@@ -517,7 +464,7 @@
 
             return (
                 <div className="font-sans antialiased selection:bg-dark-accent selection:text-dark-900">
-                    <Navbar openResume={() => setIsResumeOpen(true)} />
+                    <Navbar />
                     <main>
                         <Hero />
                         <About />
@@ -526,7 +473,6 @@
                         <Contact />
                     </main>
                     <Footer />
-                    <ResumeModal isOpen={isResumeOpen} onClose={() => setIsResumeOpen(false)} />
                 </div>
             );
         };
